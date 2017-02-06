@@ -28,6 +28,7 @@ You can find the id of specific view from /res/values/public.xml by name after y
                             "type": "text",
                             "text": "test",
                             "textColor": "#ff0000",
+                            "background": "#ff0000",
                             "textSize": 20,
                             "image": "http://dsdsdd.png",
                             "visibility": 0
@@ -72,6 +73,7 @@ You can find the id of specific view from /res/values/public.xml by name after y
 			- `textColor`: the color of TextView, such as "#ff0000"
 			- `textSize`: the text size of TextView, such as '20'
             - `image`: the url of image, only support remote image
+            - `background`: the background color of the view
             - `visibility`: 0 for VISIBLE,  4 for INVISIBLE, 8 for GONE
             - `children`: the children of the view，you can use it to find views which does not have id.
 	            - `index`: the position of  child
