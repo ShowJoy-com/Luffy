@@ -1,14 +1,15 @@
-# Style 模块
+# Luffy
 
 
-## 原理
+Luffy is a tiny unobtrusive style kit for android.
 
-该模块定位于无侵入的小巧的换肤库，用于动态配置view的style，通过下发配置，动态查找需要的view，设置相应的属性。查找view是通过id，即R.java文件里生成的id.
-该id列表可以通过apktool反编译apk，/res/values/public.xml里可以通过id名称搜索到对应的id。
+TinyStyle changes the style of specific view with the configuration. The configuration should be gotten from your server by yourself.
 
-查找view和设置样式的时机放在BaseViewModel的 onresume结尾，不管是fragment还是activity的viewmodel都会继承于BaseViewModel.
+The configuration contains the ids of views which you want to change their style and the style information to decide what style they will be.
 
-## 配置格式示例：（以后有资源的话，会只下发对应版本的配置）
+You can find the id of specific view from /res/values/public.xml by name after you decode the apk file.
+
+### The sample of configuration
 
 ```
 [
@@ -43,7 +44,6 @@
                                                 "text": "test",
                                                 "textColor": "#ff0000",
                                                 "textSize": 20,
-                                                "image": "http://dsdsdd.png",
                                                 "visibility": 0
                                             }
                                         }
@@ -52,63 +52,62 @@
                             ]
                         }
                     }
-
                 ]
             }
         ]
     }
 ]
 ```
+- 1、 It is an array,each item for different versions as the view hierarchy is different in apk with different versions.
+- 2、The field `style` is an array, each item for different pages.
+	- `page`: the full path name of fragment of activity
+	- `views`: an array, each item for different views.
+		- `id`: the id of view in hex
+		- `properties`: properties of views
+			- `type`: the type of view, support "text" or "image" or "view"
+			- `text`: the text of TextView
+			- `textColor`: the color of TextView, such as "#ff0000"
+			- `textSize`: the text size of TextView, such as '20'
+            - `image`: the url of image, only support remote image
+            - `visibility`: 0 for VISIBLE,  4 for INVISIBLE, 8 for GONE
+            - `children`: the children of the view，you can use it to find views which does not have id.
+	            - `index`: the position of  child
+	            - `views`: same as `views` above
+	            - `properties`: same as `properties` above
+            - `parent`: the parent of the view, you also can use it to find views which does not have id.
+	            - `views`: same as `views` above
+	            - `properties`: same as `properties` above
 
-整体是一个数组，每一项对应一个版本，因为每个版本的resource id 会有差异。有条件的话，可以做成每个版本请求的时候只下发对应版本的配置。
-由于目前暂时采用在线参数的方式，所以需要区分版本号。
+### Using Luffy in your application
 
-`style`里也是一个数组：
+If you are building with Gradle, simply add the following line to the dependencies section of your build.gradle file:
 
-- `page`: fragment的路径名或者activity的路径名
-- `views`：就是view的列表，是一个数组，每一项对应一个view，包含id和对应的properties
-- `properties`: view的属性配置
+	compile 'com.showjoy.android:luffy:1.0.0'
 
-
-`id`: 示例"0x7f0e02cb",//从public.xml里查找到resource id
-`properties`: view的属性配置，可选包括
-
-- "type": "text",//view类型，目前支持 text,image和普通view，默认为view
-- "text": "test",//只对text类型的view生效，设置textview的text
-- "textColor": "#ff0000",//只对text类型的view生效，设置textview的textcolor
-- "textSize": 20,//只对text类型的view生效，设置textview的textsize
-- "image": "http://dsdsdd.png",//只对image类型的view生效，设置imageview显示的图片，是一个图片链接
-- "visibility": 0//是否可见，0表示visible，4表示invisible，8表示gone
-- "children":支持子view的配置
-- "parent":支持父view的配置
-
-
-由于当同个页面含有多个结构一个的view时，通过id就不能找出唯一的view，比如listview这样的结构。
-于是配置里支持子view，就是上面"properties"里的"children"
-children里包含属性 index，views, properties
-
+- 1、set image adapter if you need change the image view
 ```
-"children": [
-   {
-      "index": 1,
-      "views": [
-          {
-              "id": "0x7f0e02cb",
-              "properties": {...}
-          }
-      ],
-      "properties": {...}
-   }
-]
+	Luffy.getInstance().setStyleImageAdapter(new IStyleImageAdapter() {
+                @Override
+                public void setImageUrl(View imageView, String imageUrl) {
+                 //do sth like below...
+                    if (imageView instanceof SHImageView) {
+                        ((SHImageView)imageView).setImageUrl(imageUrl);
+                    }else if (imageView instanceof ImageView) {
+                        ((ImageView)imageView).setImageBitmap(ImageUtils.getNetBitmap(imageUrl));
+                    }
+                }
+            });
 ```
-如果properties含有children，就会判断该view是否是ViewGroup，只有是ViewGroup才会生效
+- 2、call `parse` to parse the configuration
+```
+	Luffy.getInstance().parse(context, configuration);
+```
+- 3、call `doStyle` to change the style. You can call it at the end of onresume. Mostly baseFragment and baseActivity or something like them should exist. You can call `doStyle`in them.
+```
+	Luffy.getInstance().doStyle(activity);
+	//or
+	//Luffy.getInstance().doStyle(fragment);
+```
 
-其中`index`表示这个viewgroup的children里的第index个,通过getChildAt获取。
-
-
-"views"里的配置同前面
-"properties"里的配置同前面，也可以配置child.
-
-这样就可以支持多个层级了。
 
 
