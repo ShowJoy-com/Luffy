@@ -3,7 +3,7 @@
 
 ## 原理
 
-该模块用于动态配置view的style，通过下发配置，动态查找需要的view，设置相应的属性。查找view是通过id，即R.java文件里生成的id.
+该模块定位于无侵入的小巧的换肤库，用于动态配置view的style，通过下发配置，动态查找需要的view，设置相应的属性。查找view是通过id，即R.java文件里生成的id.
 该id列表可以通过apktool反编译apk，/res/values/public.xml里可以通过id名称搜索到对应的id。
 
 查找view和设置样式的时机放在BaseViewModel的 onresume结尾，不管是fragment还是activity的viewmodel都会继承于BaseViewModel.
