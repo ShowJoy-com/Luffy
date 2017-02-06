@@ -1,11 +1,14 @@
 # Luffy
 
+[中文文档](https://github.com/ShowJoy-com/Luffy/wiki/Luffy%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3)
 
 Luffy is a tiny unobtrusive style kit for android.
 
 TinyStyle changes the style of specific view with the configuration. The configuration should be gotten from your server by yourself.
 
 The configuration contains the ids of views which you want to change their style and the style information to decide what style they will be.
+
+If you want to find view which is not set id, you can use property 'parent' or 'children' to find view in the hierarchy.
 
 You can find the id of specific view from /res/values/public.xml by name after you decode the apk file.
 
