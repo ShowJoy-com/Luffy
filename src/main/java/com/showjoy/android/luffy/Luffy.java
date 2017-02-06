@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.showjoy.android.luffy.adapter.IStyleImageAdapter;
+import com.showjoy.android.luffy.adapter.ILuffyImageAdapter;
 import com.showjoy.android.luffy.entities.StyleEntity;
 import com.showjoy.android.luffy.utils.JsonUtils;
 import com.showjoy.android.luffy.utils.LogUtils;
@@ -28,7 +28,7 @@ public class Luffy {
 
     String styleEntities;
 
-    IStyleImageAdapter styleImageAdapter;
+    ILuffyImageAdapter styleImageAdapter;
 
     static Luffy instance = new Luffy();
 
@@ -39,7 +39,7 @@ public class Luffy {
         return instance;
     }
 
-    public void setStyleImageAdapter(IStyleImageAdapter styleImageAdapter) {
+    public void setImageAdapter(ILuffyImageAdapter styleImageAdapter) {
         this.styleImageAdapter = styleImageAdapter;
     }
 
