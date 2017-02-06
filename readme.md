@@ -84,6 +84,10 @@ If you are building with Gradle, simply add the following line to the dependenci
 
 	compile 'com.showjoy.android:luffy:1.0.0'
 
+If you enable ProGuard in your project, please add the following line to you proguard file.
+
+    -keep class com.showjoy.**.entities.** {*;}
+
 - 1、set image adapter if you need change the image view
 ```
 	Luffy.getInstance().setStyleImageAdapter(new IStyleImageAdapter() {
