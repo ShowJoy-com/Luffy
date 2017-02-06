@@ -1,4 +1,4 @@
-package com.showjoy.android.style;
+package com.showjoy.android.luffy;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.showjoy.android.style.adapter.IStyleImageAdapter;
-import com.showjoy.android.style.entities.StyleEntity;
-import com.showjoy.android.style.utils.JsonUtils;
-import com.showjoy.android.style.utils.LogUtils;
+import com.showjoy.android.luffy.adapter.IStyleImageAdapter;
+import com.showjoy.android.luffy.entities.StyleEntity;
+import com.showjoy.android.luffy.utils.JsonUtils;
+import com.showjoy.android.luffy.utils.LogUtils;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import java.util.List;
  * Created by lufei on 1/23/17.
  */
 
-public class StyleManager {
+public class Luffy {
 
     StyleEntity styleEntity;
 
@@ -30,12 +30,12 @@ public class StyleManager {
 
     IStyleImageAdapter styleImageAdapter;
 
-    static StyleManager instance = new StyleManager();
+    static Luffy instance = new Luffy();
 
-    private StyleManager() {
+    private Luffy() {
     }
 
-    public static StyleManager getInstance() {
+    public static Luffy getInstance() {
         return instance;
     }
 
