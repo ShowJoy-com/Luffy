@@ -118,5 +118,6 @@ If you enable ProGuard in your project, please add the following line to you pro
 	//Luffy.getInstance().doStyle(fragment);
 ```
 
+Welcome issues.
 
 
